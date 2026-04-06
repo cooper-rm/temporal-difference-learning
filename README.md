@@ -1,25 +1,31 @@
 # Temporal Difference Learning
 
-MSDS 684 - Reinforcement Learning | Lab 4
+MSDS 684 - Reinforcement Learning | Lab 4 | Morgan Cooper
 
 ## Overview
 
-This project implements and compares two temporal difference (TD) control algorithms — SARSA (on-policy) and Q-learning (off-policy) — using Gymnasium's CliffWalking-v0 environment. The goal is to understand the behavioral differences between on-policy and off-policy TD methods, particularly how SARSA learns a safer path while Q-learning finds the optimal but riskier route.
+This project implements and compares SARSA (on-policy) and Q-learning (off-policy) on Gymnasium's CliffWalking-v1 environment. Both agents use the same structure — same Q-table, same epsilon-greedy exploration — with only one line different in the TD update. That single difference leads to completely different learned paths.
 
-## Key Components
+## Results
 
-- **SARSA**: On-policy TD control with epsilon-greedy exploration
-- **Q-learning**: Off-policy TD control with epsilon-greedy exploration
-- **Experiments**: Multiple seeds (30+), varying step-size (alpha) and epsilon-decay schedules
-- **Visualizations**: Learning curves with 95% confidence intervals, Q-value arrow grids, trajectory plots, and value function heatmaps
+- **SARSA**: Learns the safe path across the top of the grid (-28.0 avg training reward, 17-step greedy policy)
+- **Q-learning**: Learns the optimal cliff-edge path (-51.6 avg training reward, 13-step greedy policy)
+- **Epsilon decay**: Exponential decay improved Q-learning from -50.5 to -16.8, eventually beating SARSA
 
 ## Environment
 
-**CliffWalking-v0**: A 4x12 gridworld where the agent must navigate from start to goal while avoiding a cliff along the bottom edge. Stepping into the cliff returns the agent to start with a -100 reward. Each normal step gives -1 reward.
+**CliffWalking-v1**: A 4x12 gridworld (48 states, 4 actions). Agent starts bottom-left, goal is bottom-right. The bottom edge between start and goal is a cliff — stepping on it gives -100 reward and resets to start. Every other step gives -1.
+
+## Files
+
+- `Lab4_TD_Learning.ipynb` — Main notebook with all implementations and visualizations
+- `generate_report.py` — Generates the LaTeX report PDF
+- `figures/` — Saved plots for the report
+- `Cooper_Morgan_Lab4.pdf` — Final report
 
 ## Usage
 
 ```bash
-# Generate the lab report PDF
+# Run the notebook first, then generate the report
 python generate_report.py
 ```
