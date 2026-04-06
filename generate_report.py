@@ -126,60 +126,62 @@ SARSA reward curves. Bottom: Q-learning reward curves. All averaged over 20 seed
 
 \subsection{Initial Interaction}
 
-% 50-75 words
-% What did you ask the AI to help you with?
-% What was your initial prompt?
-% What code/explanation did it provide?
-
-TODO: Write initial interaction here.
+Like previous labs, I used ChatGPT to first discuss temporal difference learning. I had it review the concepts
+in the week's materials and then interview me. Once I felt confident in this week's
+concepts, I switched to Claude Code where I began working through Lab 4. Previous weeks felt very easy,
+but this week Claude made a number of silly mistakes, as discussed in the next few sections.
 
 \subsection{Iteration Cycle}
 
-% 150-200 words --- MOST IMPORTANT
-% Describe at least 2-3 concrete debugging cycles with:
-%   - The error/problem you encountered
-%   - Your follow-up prompt to AI
-%   - AI's response
-%   - Whether it worked or needed more iteration
+\textbf{Iteration 1: Notebook Built Backwards}
 
-TODO: Write iteration cycles here.
+Initially, I had Claude discuss a plan of action and begin with templating Lab 4 as a 
+Jupyter notebook. After discussing the details, it wrote the notebook with each section
+in a markdown cell, however it completed the sections in the wrong order starting at
+part 7 and counting back to part 1. This was interesting, since I had not encountered
+issues like this with Claude Code in the past. After some discussion, the order was
+corrected and I was able to move on.
+
+\textbf{Iteration 2: Deprecated Environment Version}
+
+The next issue I found was that CliffWalking-v0 threw a deprecation warning. I discussed
+it with Claude, and all cells relating to CliffWalking-v0 were updated to CliffWalking-v1.
+This was a quick and simple fix, but made it clear that Claude doesn't always understand
+the latest API versions.
+
+\textbf{Iteration 3: SARSA Greedy Rollout Loop Bug}
+
+When working on the trajectory plot for SARSA, the plot showed SARSA going 1 step
+then looping back to start. This was of course incorrect since the training was correctly
+working. After discussing this issue with Claude, it identified the root cause to be that
+the numpy random state had drifted after running Parts 2 through 5, so the Q-table was different.
+This was not an easy fix, as it took multiple attempts to figure out.
 
 \subsection{Critical Evaluation}
 
-% 50-75 words
-% Did you catch any mistakes the AI made?
-% Did you test alternative approaches?
-% How did you verify the final solution was correct?
-
-TODO: Write critical evaluation here.
+Claude made more small errors this lab than all other previous labs. This included organizational errors,
+logic and code errors, and issues with linting. Most of these were caught by myself reading through the
+code or running each cell, and then working with Claude to fix them. Fortunately, I was able to verify each step and
+come to a reasonable code base in the end, matching up with expectations from Sutton and Barto.
 
 \subsection{Learning Reflection}
 
-% 50-75 words
-% What did you learn about the RL algorithm through debugging?
-% What did you learn about working with AI tools?
-% What would you do differently next time?
+The trajectory bug taught me that TD methods are sensitive to random state and need enough training to find the final
+correct policy. I was also able to understand that SARSA and Q-learning are the same agent, with a single different
+line of code for updates being the difference. Additionally, working with AI still requires careful review, as seen via
+Claude's small but consistent errors during this lab.
 
-TODO: Write learning reflection here.
 
 \section{Section 4: Speaker Notes}
 
-% 5-7 bullet points covering:
-%   - Problem statement and motivation
-%   - Method and key algorithmic choices
-%   - Important design decision or challenge you faced
-%   - Main result or finding
-%   - Key insight or learning
-%   - (Optional) Connection to future weeks or real-world applications
-
 \begin{itemize}
-  \item \textbf{Problem:} TODO
-  \item \textbf{Method:} TODO
-  \item \textbf{Design choice:} TODO
-  \item \textbf{Key result:} TODO
-  \item \textbf{Insight:} TODO
-  \item \textbf{Challenge:} TODO
-  \item \textbf{Connection:} TODO
+  \item \textbf{Problem:} Explore temporal difference learning on CliffWalking.
+  \item \textbf{Method:} SARSA and Q-learning with epsilon-greedy, 30 seeds.
+  \item \textbf{Design choice:} Same agent, one line different in the update.
+  \item \textbf{Key result:} SARSA takes the safe path (-28.0), Q-learning takes the cliff edge (-51.6) but learns the optimal policy (-13).
+  \item \textbf{Insight:} Epsilon decay closes the gap between the two algorithms.
+  \item \textbf{Challenge:} SARSA trajectory bugged out due to random state drift, took a few tries to fix.
+  \item \textbf{Connection:} TD bridges Monte Carlo and Dynamic Programming, learning step by step without a model.
 \end{itemize}
 
 \section{References}
